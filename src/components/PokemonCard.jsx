@@ -6,16 +6,16 @@ function handleClick() {
   console.log("alo");
 }
 
-function PokemonCard({ nome, gen}) {
+function PokemonCard({ nome }) {
   return (
     <Card style={{ width: "100%", marginBottom: "1em" }}>
       <Card.Img variant="top" src="holder.js/100px180" />
       <Card.Body>
         <Card.Title>{nome}</Card.Title>
-        <Card.Text>
-          infos
-        </Card.Text>
-        <Button variant="primary" onClick={handleClick}>tipos</Button>
+        <Card.Text>infos</Card.Text>
+        <Button variant="primary" onClick={handleClick}>
+          tipos
+        </Button>
       </Card.Body>
     </Card>
   );
