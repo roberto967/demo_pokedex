@@ -1,7 +1,9 @@
+import axios from "axios";
 import React from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import BarraNav from "../components/barraNav/BarraNav";
 import About from "./About";
+import DexCompleta from "./DexCompleta";
 
 function Home() {
   return (
@@ -9,7 +11,7 @@ function Home() {
       <BrowserRouter>
         <BarraNav />
         <Routes>
-          <Route path="/" element={<h1>Welcome to the home page!</h1>} />
+          <Route path="/" element={<DexCompleta />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
