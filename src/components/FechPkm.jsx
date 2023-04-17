@@ -35,8 +35,12 @@ export async function getPokemonsGen(gen) {
   return pokemons;
 }
 
-export async function getPkm(pkm) {
-  endpoints = [];
-  pkm.map((poke) => endpoints.push())
-  
+export async function getPkm(pkmList) {
+  const promises = pkmList.map(async ({ id }) => {
+    const { data } = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${id}/`
+    );
+    return data;
+  });
+  return Promise.all(promises);
 }
