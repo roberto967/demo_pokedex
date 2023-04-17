@@ -88,10 +88,14 @@ function DexCompleta() {
   const pkmVisiveis = pokemons.slice(0, qtdVisiveis);
 
   return (
-    <div>
+    <div style={{ zIndex: -1 }}>
       <Container
         fluid="xxl"
-        style={{ backgroundImage: `url(${backgroundImg})` }}
+        style={{
+          backgroundImage: `url(${backgroundImg})`,
+          backgroundSize: "100%",
+          zIndex: 0,
+        }}
       >
         <Row className="justify-content-center">
           {pkmVisiveis.map((pokemon, key) => {
