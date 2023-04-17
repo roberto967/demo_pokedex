@@ -1,19 +1,36 @@
-import axios from "axios";
 import React from "react";
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
+
 import BarraNav from "../components/barraNav/BarraNav";
-import About from "./About";
 import DexCompleta from "./DexCompleta";
+import About from "./About";
+
+const MainContainer = styled.div`
+  padding-top: 0;
+`;
+
+const BarraNavContainer = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+`;
 
 function Home() {
   return (
     <>
       <BrowserRouter>
-        <BarraNav />
-        <Routes>
-          <Route path="/" element={<DexCompleta />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
+        <BarraNavContainer>
+          <BarraNav />
+        </BarraNavContainer>
+        <MainContainer>
+          <Routes>
+            <Route path="/" element={<DexCompleta />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </MainContainer>
       </BrowserRouter>
     </>
   );

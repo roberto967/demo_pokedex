@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import PokemonCard from "../components/PokemonCard";
-import { getPkm, getPokemonsGen } from "../components/FechPkm";
-import backgroundImg from "./img/pokemon_background.png";
+
+import PokemonCard from "../components/PokemonCard/PokemonCard";
+import { getPkm, getPokemonsGen } from "./Assets/FechPkm/FechPkm";
+import backgroundImg from "./Assets/imgs/pokemon_background.png";
+import bgBackgroudImg from "./Assets/imgs/body_bg.png";
 
 function DexCompleta() {
   const [gen, setGen] = useState(1);
@@ -80,68 +82,64 @@ function DexCompleta() {
     }
   }
 
-  function handleReset() {
-    setqtdVisiveis(10);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   const pkmVisiveis = pokemons.slice(0, qtdVisiveis);
 
   return (
-    <div style={{ zIndex: -1 }}>
-      <Container
-        fluid="xxl"
-        style={{
-          backgroundImage: `url(${backgroundImg})`,
-          backgroundSize: "100%",
-          zIndex: 0,
-        }}
-      >
-        <Row className="justify-content-center">
-          {pkmVisiveis.map((pokemon, key) => {
-            return pokemon.names.map((enName) => {
-              if (enName.language.name === "en") {
-                return (
-                  <Col
-                    xs="12"
-                    sm="6"
-                    md="4"
-                    lg="3"
-                    style={{ padding: "3.5em" }}
-                    key={key}
-                  >
-                    <div className="bg-warning border">
+    <div
+      style={{
+        backgroundImage: `url(${bgBackgroudImg})`,
+      }}
+    >
+      <Container>
+        <Container
+          fluid="xxl"
+          style={{
+            backgroundImage: `url(${backgroundImg})`,
+            backgroundColor: "white",
+            backgroundSize: "100%",
+          }}
+        >
+          <Row className="justify-content-center">
+            {pkmVisiveis.map((pokemon, key) => {
+              return pokemon.names.map((enName) => {
+                if (enName.language.name === "en") {
+                  return (
+                    <Col
+                      xs="12"
+                      sm="6"
+                      md="4"
+                      lg="3"
+                      style={{ padding: "4%" }}
+                      key={key}
+                    >
                       <PokemonCard nome={enName.name} img={pokemon.imgUrl} />
-                    </div>
-                  </Col>
-                );
-              }
-              return null;
-            });
-          })}
-        </Row>
-        <div className="text-center mt-3">
-          {qtdVisiveis > 10 && (
-            <Button variant="secondary" onClick={handleMostrarMenos}>
-              Mostrar Menos
-            </Button>
-          )}
-          {pokemons.length > qtdVisiveis ? (
-            <Button variant="primary" onClick={handleMostrarMais}>
-              Mostrar Mais
-            </Button>
-          ) : (
-            <Button variant="danger" onClick={handleReset}>
-              Resetar
-            </Button>
-          )}
-          {!loading && gen < 9 && (
-            <Button variant="success" onClick={handleClick}>
-              Próxima Geração ({gen + 1})
-            </Button>
-          )}
-          {loading && <div className="text-info mt-2">Carregando...</div>}
-        </div>
+                    </Col>
+                  );
+                }
+              });
+            })}
+          </Row>
+          <div className="text-center mt-3">
+            {pokemons.length > qtdVisiveis && (
+              <Button variant="primary" onClick={handleMostrarMais}>
+                Mostrar Mais
+              </Button>
+            )}
+
+            {qtdVisiveis > 10 && (
+              <Button variant="danger" onClick={handleMostrarMenos}>
+                Mostrar Menos
+              </Button>
+            )}
+
+            {!loading && gen < 9 && (
+              <Button variant="success" onClick={handleClick}>
+                Próxima Geração ({gen + 1})
+              </Button>
+            )}
+            {loading && <div className="text-info mt-2">Carregando...</div>}
+          </div>
+        </Container>
       </Container>
     </div>
   );

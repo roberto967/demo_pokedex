@@ -13,11 +13,7 @@ function BarraNav() {
   let expand = "true";
 
   return (
-    <Navbar
-      key={expand}
-      bg="light"
-      expand="sm"
-    >
+    <Navbar key={expand} bg="light" expand="sm">
       <Container fluid>
         <Navbar.Brand href="#" expand={expand}>
           <img
@@ -34,7 +30,7 @@ function BarraNav() {
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-              Offcanvas
+              Avemaria Doido
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
