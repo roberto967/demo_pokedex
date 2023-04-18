@@ -138,10 +138,18 @@ function DexCompleta() {
             <ButtonGroup className="justify-content-center">
               <Row>
                 {[...Array(9)].map((_, index) => (
-                  <Col style={{ padding: "0.35em" }} xs="3" sm="3" md lg>
+                  <Col
+                    style={{ padding: "0.35em" }}
+                    xs="3"
+                    sm="3"
+                    md
+                    lg
+                    key={index}
+                  >
                     <Button
                       onClick={() => handleGen(index + 1)}
                       disabled={loading}
+                      key={index}
                     >
                       Gen {index + 1}
                     </Button>
