@@ -62,10 +62,7 @@ function DexCompleta() {
   }, [pokemons, gen, prevGeneration]);
 
   async function handleClick() {
-    if (gen <= 9 && !loading && pokemons.length) {
-      if (gen === prevGeneration.current) {
-        return;
-      }
+    if (gen < 9 && !loading && pokemons.length) {
       setLoading(true);
       const nextGen = gen + 1;
       const results = await getPokemonsGen(nextGen);
@@ -81,9 +78,6 @@ function DexCompleta() {
 
   async function handleGenAnt() {
     if (gen > 1 && !loading && pokemons.length) {
-      if (gen === prevGeneration.current) {
-        return;
-      }
       setLoading(true);
       const nextGen = gen - 1;
       const results = await getPokemonsGen(nextGen);
@@ -144,13 +138,7 @@ function DexCompleta() {
             <ButtonGroup className="justify-content-center">
               <Row>
                 {[...Array(9)].map((_, index) => (
-                  <Col
-                    style={{ padding: "0.35em" }}
-                    xs="3"
-                    sm="3"
-                    md
-                    lg
-                  >
+                  <Col style={{ padding: "0.35em" }} xs="3" sm="3" md lg>
                     <Button
                       onClick={() => handleGen(index + 1)}
                       disabled={loading}
