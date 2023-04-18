@@ -140,37 +140,28 @@ function DexCompleta() {
             backgroundSize: "100%",
           }}
         >
-          <Row style={{ justifyContent: "center" }}>
-            <ButtonGroup>
-              <Button onClick={() => handleGen(1)} disabled={loading}>
-                Gen 1
-              </Button>
-              <Button onClick={() => handleGen(2)} disabled={loading}>
-                Gen 2
-              </Button>
-              <Button onClick={() => handleGen(3)} disabled={loading}>
-                Gen 3
-              </Button>
-              <Button onClick={() => handleGen(4)} disabled={loading}>
-                Gen 4
-              </Button>
-              <Button onClick={() => handleGen(5)} disabled={loading}>
-                Gen 5
-              </Button>
-              <Button onClick={() => handleGen(6)} disabled={loading}>
-                Gen 6
-              </Button>
-              <Button onClick={() => handleGen(7)} disabled={loading}>
-                Gen 7
-              </Button>
-              <Button onClick={() => handleGen(8)} disabled={loading}>
-                Gen 8
-              </Button>
-              <Button onClick={() => handleGen(9)} disabled={loading}>
-                Gen 9
-              </Button>
+          <Container className="text-center">
+            <ButtonGroup className="justify-content-center">
+              <Row>
+                {[...Array(9)].map((_, index) => (
+                  <Col
+                    style={{ padding: "0.35em" }}
+                    xs="3"
+                    sm="3"
+                    md
+                    lg
+                  >
+                    <Button
+                      onClick={() => handleGen(index + 1)}
+                      disabled={loading}
+                    >
+                      Gen {index + 1}
+                    </Button>
+                  </Col>
+                ))}
+              </Row>
             </ButtonGroup>
-          </Row>
+          </Container>
           <Row className="justify-content-center">
             {pkmVisiveis.map((pokemon, key) => {
               return pokemon.names.map((enName) => {
