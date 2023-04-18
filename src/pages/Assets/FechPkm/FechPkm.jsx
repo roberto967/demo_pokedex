@@ -40,6 +40,8 @@ export async function getPkm(pkmList) {
     const { data } = await axios.get(
       `https://pokeapi.co/api/v2/pokemon/${id}/`
     );
+    //console.log(data.types);
+
     return data;
   });
 

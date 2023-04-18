@@ -1,25 +1,68 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Row,
+  Col,
+  ButtonGroup,
+  Button,
+} from "react-bootstrap";
+import pokeball from "./pokeball_logo.jpg";
 
 function handleClick(nome) {
   console.log(nome);
 }
 
-function PokemonCard({ nome, img }) {
+function PokemonCard({ nome, img, tipos }) {
   return (
     <Card
       className="text-center"
-      border="light"
-      bg="light"
-      style={{ borderRadius: "100px" }}
+      style={{
+        borderRadius: "10px",
+        backgroundCollor: "white",
+        //backgroundImage: `url(${pokeball})`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+      //bg="light"
     >
-      <Card.Img variant="top" src={img} />
+      <Card.Img
+        variant="top"
+        src={img}
+        style={{ background: "lightGray", borderRadius: "10px" }}
+      />
       <Card.Body>
         <Card.Title>{nome}</Card.Title>
         <Card.Text>infos</Card.Text>
-        <Button variant="primary" onClick={() => handleClick(nome)}>
-          tipos
-        </Button>
+        <Container className="text-center">
+          <ButtonGroup className="justify-content-center">
+            <Row>
+              {tipos.map((tipo, index) => {
+                return (
+                  <Col
+                    style={{ padding: "0.2em" }}
+                    xs
+                    sm
+                    md
+                    lg
+                    key={index}
+                    className="space-round"
+                  >
+                    <Button
+                      variant="light"
+                      size="sm"
+                      key={index}
+                      //style={{ backgroundColor: "blueviolet" }}
+                      active
+                    >
+                      {tipo.type.name}
+                    </Button>
+                  </Col>
+                );
+              })}
+            </Row>
+          </ButtonGroup>
+        </Container>
       </Card.Body>
     </Card>
   );

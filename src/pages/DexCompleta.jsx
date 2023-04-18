@@ -52,7 +52,7 @@ function DexCompleta() {
 
       const updatedPokemons = pokemons.map((pokemon, index) => ({
         ...pokemon,
-        imgUrl: pokemonArr[index].sprites.front_default,
+        data: pokemonArr[index],
       }));
 
       setPokemons(updatedPokemons);
@@ -71,7 +71,6 @@ function DexCompleta() {
       setPokemons(results);
       setLoading(false);
       window.scrollTo({ top: 0, behavior: "smooth" }); // Rolar pra o topo
-      console.log(nextGen);
       prevGeneration.current = gen; // atualiza a geração anterior
     }
   }
@@ -86,7 +85,6 @@ function DexCompleta() {
       setPokemons(results);
       setLoading(false);
       window.scrollTo({ top: 0, behavior: "smooth" }); // Rolar pra o topo
-      console.log(nextGen);
       prevGeneration.current = gen; // atualiza a geração anterior
     }
   }
@@ -160,22 +158,28 @@ function DexCompleta() {
           </Container>
           <Row className="justify-content-center">
             {pkmVisiveis.map((pokemon, key) => {
-              return pokemon.names.map((enName) => {
-                if (enName.language.name === "en") {
-                  return (
-                    <Col
-                      xs="12"
-                      sm="6"
-                      md="4"
-                      lg="3"
-                      style={{ padding: "4%" }}
-                      key={key}
-                    >
-                      <PokemonCard nome={enName.name} img={pokemon.imgUrl} />
-                    </Col>
-                  );
-                }
-              });
+              if (pokemon.data) {
+                return pokemon.names.map((enName) => {
+                  if (enName.language.name === "en") {
+                    return (
+                      <Col
+                        xs="12"
+                        sm="6"
+                        md="4"
+                        lg="3"
+                        style={{ padding: "4%" }}
+                        key={key}
+                      >
+                        <PokemonCard
+                          nome={enName.name}
+                          img={pokemon.data.sprites.front_default}
+                          tipos={pokemon.data.types}
+                        />
+                      </Col>
+                    );
+                  }
+                });
+              }
             })}
           </Row>
           <div className="text-center mt-3">
