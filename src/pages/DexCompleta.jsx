@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Spinner,
+  ButtonGroup,
+} from "react-bootstrap";
 
 import PokemonCard from "../components/PokemonCard/PokemonCard";
 import { getPkm, getPokemonsGen } from "./Assets/FechPkm/FechPkm";
@@ -11,6 +18,7 @@ function DexCompleta() {
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [qtdVisiveis, setqtdVisiveis] = useState(10);
+  const prevGeneration = useRef(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +42,12 @@ function DexCompleta() {
         return;
       }
 
+      if (gen === prevGeneration.current) {
+        return;
+      }
+
+      prevGeneration.current = gen; // atualiza a geração anterior
+
       const pokemonArr = await getPkm(pokemons);
 
       const updatedPokemons = pokemons.map((pokemon, index) => ({
@@ -45,10 +59,13 @@ function DexCompleta() {
     }
 
     fetchImg();
-  }, [pokemons]);
+  }, [pokemons, gen, prevGeneration]);
 
   async function handleClick() {
-    if (gen < 9 && !loading && pokemons.length) {
+    if (gen <= 9 && !loading && pokemons.length) {
+      if (gen === prevGeneration.current) {
+        return;
+      }
       setLoading(true);
       const nextGen = gen + 1;
       const results = await getPokemonsGen(nextGen);
@@ -56,6 +73,43 @@ function DexCompleta() {
       setGen(nextGen);
       setPokemons(results);
       setLoading(false);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Rolar pra o topo
+      console.log(nextGen);
+      prevGeneration.current = gen; // atualiza a geração anterior
+    }
+  }
+
+  async function handleGenAnt() {
+    if (gen > 1 && !loading && pokemons.length) {
+      if (gen === prevGeneration.current) {
+        return;
+      }
+      setLoading(true);
+      const nextGen = gen - 1;
+      const results = await getPokemonsGen(nextGen);
+      setqtdVisiveis(10);
+      setGen(nextGen);
+      setPokemons(results);
+      setLoading(false);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Rolar pra o topo
+      console.log(nextGen);
+      prevGeneration.current = gen; // atualiza a geração anterior
+    }
+  }
+
+  async function handleGen(generation) {
+    if (!loading && pokemons.length) {
+      if (generation === prevGeneration.current) {
+        return;
+      }
+      setLoading(true);
+      const nextGen = generation;
+      const results = await getPokemonsGen(nextGen);
+      setqtdVisiveis(10);
+      setGen(nextGen);
+      setPokemons(results);
+      setLoading(false);
+      prevGeneration.current = gen; // atualiza a geração anterior
     }
   }
 
@@ -66,19 +120,6 @@ function DexCompleta() {
   function handleMostrarMenos() {
     if (qtdVisiveis > 10) {
       setqtdVisiveis(qtdVisiveis - 10);
-    }
-  }
-
-  async function handleClick() {
-    if (gen < 9 && !loading && pokemons.length) {
-      setLoading(true);
-      const nextGen = gen + 1;
-      const results = await getPokemonsGen(nextGen);
-      setqtdVisiveis(10);
-      setGen(nextGen);
-      setPokemons(results);
-      setLoading(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 
@@ -99,6 +140,37 @@ function DexCompleta() {
             backgroundSize: "100%",
           }}
         >
+          <Row style={{ justifyContent: "center" }}>
+            <ButtonGroup>
+              <Button onClick={() => handleGen(1)} disabled={loading}>
+                Gen 1
+              </Button>
+              <Button onClick={() => handleGen(2)} disabled={loading}>
+                Gen 2
+              </Button>
+              <Button onClick={() => handleGen(3)} disabled={loading}>
+                Gen 3
+              </Button>
+              <Button onClick={() => handleGen(4)} disabled={loading}>
+                Gen 4
+              </Button>
+              <Button onClick={() => handleGen(5)} disabled={loading}>
+                Gen 5
+              </Button>
+              <Button onClick={() => handleGen(6)} disabled={loading}>
+                Gen 6
+              </Button>
+              <Button onClick={() => handleGen(7)} disabled={loading}>
+                Gen 7
+              </Button>
+              <Button onClick={() => handleGen(8)} disabled={loading}>
+                Gen 8
+              </Button>
+              <Button onClick={() => handleGen(9)} disabled={loading}>
+                Gen 9
+              </Button>
+            </ButtonGroup>
+          </Row>
           <Row className="justify-content-center">
             {pkmVisiveis.map((pokemon, key) => {
               return pokemon.names.map((enName) => {
@@ -132,12 +204,18 @@ function DexCompleta() {
               </Button>
             )}
 
-            {!loading && gen < 9 && (
-              <Button variant="success" onClick={handleClick}>
-                Próxima Geração ({gen + 1})
+            {!loading && gen > 1 && (
+              <Button variant="danger" onClick={handleGenAnt}>
+                Geração Anterior
               </Button>
             )}
-            {loading && <div className="text-info mt-2">Carregando...</div>}
+
+            {!loading && gen < 9 && (
+              <Button variant="success" onClick={handleClick}>
+                Próxima Geração
+              </Button>
+            )}
+            {loading && <Spinner animation="border" variant="primary" />}
           </div>
         </Container>
       </Container>

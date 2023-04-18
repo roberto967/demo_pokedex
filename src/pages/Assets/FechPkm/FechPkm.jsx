@@ -42,5 +42,6 @@ export async function getPkm(pkmList) {
     );
     return data;
   });
+
   return Promise.all(promises);
 }
