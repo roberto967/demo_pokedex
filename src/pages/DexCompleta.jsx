@@ -146,7 +146,7 @@ function DexCompleta() {
                   >
                     <Button
                       onClick={() => handleGen(index + 1)}
-                      disabled={loading}
+                      disabled={(loading, gen == index + 1)}
                       key={index}
                     >
                       Gen {index + 1}
@@ -172,7 +172,10 @@ function DexCompleta() {
                       >
                         <PokemonCard
                           nome={enName.name}
-                          img={pokemon.data.sprites.front_default}
+                          img={
+                            pokemon.data.sprites.other["official-artwork"]
+                              .front_default
+                          }
                           tipos={pokemon.data.types}
                         />
                       </Col>
