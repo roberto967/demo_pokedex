@@ -53,8 +53,8 @@ function DexCompleta({ searchValue, dexGen }) {
         ...pokemon,
         data: pokemonArr[index],
       }));
-
       setPokemons(updatedPokemons);
+      setqtdVisiveis(10);
     }
 
     fetchPokemonData();
@@ -116,6 +116,7 @@ function DexCompleta({ searchValue, dexGen }) {
                   }
                 });
               } else {
+                {window.scrollTo({ top: 0, behavior: "instant"})}
                 return (
                   <Col
                     xs="12"
@@ -129,6 +130,7 @@ function DexCompleta({ searchValue, dexGen }) {
                       <PokemonCardPlaceholder />
                     </div>
                   </Col>
+                  
                 );
               }
             })}
