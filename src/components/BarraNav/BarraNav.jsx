@@ -1,15 +1,21 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Offcanvas from "react-bootstrap/Offcanvas";
-
+import {
+  Container,
+  Form,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Offcanvas,
+  ButtonGroup,
+} from "react-bootstrap";
 import logo from "../assets/img/pokemon-logo.png";
 
-function BarraNav() {
+import "../assets/style/style_icons.css";
+
+import { tipoPImagem, tiposStr, tipoCor } from "../assets/Tipos_pkm";
+
+function BarraNav({ onSearchInputChange, onGenChange, gen }) {
   let expand = "true";
 
   return (
@@ -40,12 +46,7 @@ function BarraNav() {
               <NavDropdown
                 title="Filtros?"
                 id={`offcanvasNavbarDropdown-expand-${expand}`}
-              >
-                <NavDropdown.Item href="#action3">tipo 1</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">tipo 2</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">tipo n..</NavDropdown.Item>
-              </NavDropdown>
+              ></NavDropdown>
             </Nav>
             <Form className="d-flex">
               <Form.Control
@@ -53,11 +54,23 @@ function BarraNav() {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={onSearchInputChange}
               />
-              <Button variant="outline-success">Search</Button>
+              <Button variant="outline-success">Pesquisar</Button>
             </Form>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
+        <ButtonGroup className="ms-auto">
+          {[...Array(9)].map((_, index) => (
+            <Button
+              onClick={() => onGenChange(index + 1)}
+              key={index}
+              disabled={gen === index + 1}
+            >
+              Gen {index + 1}
+            </Button>
+          ))}
+        </ButtonGroup>
       </Container>
     </Navbar>
   );

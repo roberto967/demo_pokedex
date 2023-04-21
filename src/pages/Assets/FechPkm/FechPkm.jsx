@@ -30,6 +30,8 @@ export async function getPokemonsGen(gen) {
     }
   });
 
+  console.log(pokemons);
+
   pokemons.sort((a, b) => a.order - b.order);
 
   return pokemons;

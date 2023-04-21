@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 
-import BarraNav from "../components/barraNav/BarraNav";
+import BarraNav from "../components/BarraNav/BarraNav";
 import DexCompleta from "./DexCompleta";
 import About from "./About";
 
@@ -19,15 +19,33 @@ const BarraNavContainer = styled.div`
 `;
 
 function Home() {
+  const [searchValue, setSearchValue] = useState("");
+  const [gen, setGen] = useState(1);
+
+  function handleSearchInputChange(event) {
+    setSearchValue(event.target.value);
+  }
+
+  function handleGenChange(generation) {
+    setGen(generation);
+  }
+
   return (
     <>
       <BrowserRouter>
         <BarraNavContainer>
-          <BarraNav />
+          <BarraNav
+            onSearchInputChange={handleSearchInputChange}
+            onGenChange={handleGenChange}
+            gen={gen}
+          />
         </BarraNavContainer>
         <MainContainer>
           <Routes>
-            <Route path="/" element={<DexCompleta />} />
+            <Route
+              path="/"
+              element={<DexCompleta searchValue={searchValue} dexGen={gen} />}
+            />
             <Route path="/about" element={<About />} />
           </Routes>
         </MainContainer>

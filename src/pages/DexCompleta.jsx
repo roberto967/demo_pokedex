@@ -9,16 +9,18 @@ import {
 } from "react-bootstrap";
 
 import PokemonCard from "../components/PokemonCard/PokemonCard";
+import PokemonCardPlaceholder from "../components/PokemonCard/PokemonCardPlaceholder";
 import { getPkm, getPokemonsGen } from "./Assets/FechPkm/FechPkm";
 import backgroundImg from "./Assets/imgs/pokemon_background.png";
 import bgBackgroudImg from "./Assets/imgs/body_bg.png";
 
-function DexCompleta() {
-  const [gen, setGen] = useState(1);
+function DexCompleta({ searchValue, dexGen }) {
+  const [gen, setGen] = useState(dexGen);
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [qtdVisiveis, setqtdVisiveis] = useState(10);
   const prevGeneration = useRef(null);
+  console.log(gen);
 
   useEffect(() => {
     async function fetchData() {
@@ -123,7 +125,7 @@ function DexCompleta() {
         backgroundImage: `url(${bgBackgroudImg})`,
       }}
     >
-      <Container>
+      <Container style={{ minHeight: "100vh" }}>
         <Container
           fluid="xxl"
           style={{
@@ -156,7 +158,10 @@ function DexCompleta() {
               </Row>
             </ButtonGroup>
           </Container>
-          <Row className="justify-content-center">
+          <Row
+            className="justify-content-center"
+            style={{ minHeight: "100vh" }}
+          >
             {pkmVisiveis.map((pokemon, key) => {
               if (pokemon.data) {
                 return pokemon.names.map((enName) => {
@@ -182,6 +187,21 @@ function DexCompleta() {
                     );
                   }
                 });
+              } else {
+                return (
+                  <Col
+                    xs="12"
+                    sm="6"
+                    md="4"
+                    lg="3"
+                    style={{ padding: "4%" }}
+                    key={key}
+                  >
+                    <div className="animate__animated animate__glow">
+                      <PokemonCardPlaceholder />
+                    </div>
+                  </Col>
+                );
               }
             })}
           </Row>

@@ -2,72 +2,9 @@ import React, { useState } from "react";
 import { Container, Card, Row, Col, Image } from "react-bootstrap";
 import "../assets/style/style_icons.css";
 
-import bug from "../assets/img/types_pkm/bug.svg";
-import dark from "../assets/img/types_pkm/dark.svg";
-import dragon from "../assets/img/types_pkm/dragon.svg";
-import electric from "../assets/img/types_pkm/electric.svg";
-import fairy from "../assets/img/types_pkm/fairy.svg";
-import fighting from "../assets/img/types_pkm/fighting.svg";
-import fire from "../assets/img/types_pkm/fire.svg";
-import flying from "../assets/img/types_pkm/flying.svg";
-import ghost from "../assets/img/types_pkm/ghost.svg";
-import grass from "../assets/img/types_pkm/grass.svg";
-import ground from "../assets/img/types_pkm/ground.svg";
-import ice from "../assets/img/types_pkm/ice.svg";
-import normal from "../assets/img/types_pkm/normal.svg";
-import poison from "../assets/img/types_pkm/poison.svg";
-import psychic from "../assets/img/types_pkm/psychic.svg";
-import rock from "../assets/img/types_pkm/rock.svg";
-import steel from "../assets/img/types_pkm/steel.svg";
-import water from "../assets/img/types_pkm/water.svg";
+import { tipoPImagem, tipoCor } from "../assets/Tipos_pkm";
 
 import bgrd from "../assets/img/watermark-pokeball-large.svg";
-
-function handleClick(nome) {
-  console.log(nome);
-}
-
-const tipoPImagem = {
-  bug: bug,
-  dark: dark,
-  dragon: dragon,
-  electric: electric,
-  fairy: fairy,
-  fighting: fighting,
-  fire: fire,
-  flying: flying,
-  ghost: ghost,
-  grass: grass,
-  ground: ground,
-  ice: ice,
-  normal: normal,
-  poison: poison,
-  psychic: psychic,
-  rock: rock,
-  steel: steel,
-  water: water,
-};
-
-const tipoCor = {
-  bug: "92bc2c",
-  dark: "595761",
-  dragon: "0c69c8",
-  electric: "f2d94e",
-  fairy: "ee90e6",
-  fighting: "d3425f",
-  fire: "fba54c",
-  flying: "a1bbec",
-  ghost: "5f6dbc",
-  grass: "5fbd58",
-  ground: "da7c4d",
-  ice: "75d0c1",
-  normal: "a0a29f",
-  poison: "b763cf",
-  psychic: "fa8581",
-  rock: "c9bb8a",
-  steel: "5695a3",
-  water: "539ddf",
-};
 
 function PokemonCard({ nome, img, tipos }) {
   const [hovered, setHovered] = useState(false);
