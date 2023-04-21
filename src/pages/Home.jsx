@@ -36,7 +36,7 @@ function Home() {
         <BarraNavContainer>
           <BarraNav
             onSearchInputChange={handleSearchInputChange}
-            onGenChange={handleGenChange}
+            onGenChange={handleGenChange} // adiciona a prop "onGenChange"
             gen={gen}
           />
         </BarraNavContainer>
@@ -53,5 +53,6 @@ function Home() {
     </>
   );
 }
+
 
 export default Home;

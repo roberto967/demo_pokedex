@@ -15,40 +15,37 @@ import backgroundImg from "./Assets/imgs/pokemon_background.png";
 import bgBackgroudImg from "./Assets/imgs/body_bg.png";
 
 function DexCompleta({ searchValue, dexGen }) {
-  const [gen, setGen] = useState(dexGen);
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [qtdVisiveis, setqtdVisiveis] = useState(10);
-  const prevGeneration = useRef(null);
-  console.log(gen);
+
+  const prevGen = useRef(null);
 
   useEffect(() => {
-    async function fetchData() {
-      if (!pokemons.length && gen > 0) {
-        setLoading(true);
-        const results = await getPokemonsGen(gen);
-        setPokemons(results);
-        setLoading(false);
-      }
+    async function fetchPokemons() {
+      setLoading(true);
+      const results = await getPokemonsGen(dexGen);
+      setPokemons(results);
+      setLoading(false);
     }
-    fetchData();
-  }, [gen, pokemons]);
+
+    if (dexGen !== prevGen.current) {
+      setPokemons([]);
+      prevGen.current = dexGen;
+    }
+
+    fetchPokemons();
+  }, [dexGen]);
 
   useEffect(() => {
-    async function fetchImg() {
+    async function fetchPokemonData() {
       if (pokemons.length === 0) {
         return;
       }
 
-      if (pokemons.every((pokemon) => pokemon.imgUrl)) {
+      if (pokemons.every((pokemon) => pokemon.data)) {
         return;
       }
-
-      if (gen === prevGeneration.current) {
-        return;
-      }
-
-      prevGeneration.current = gen; // atualiza a geração anterior
 
       const pokemonArr = await getPkm(pokemons);
 
@@ -60,52 +57,8 @@ function DexCompleta({ searchValue, dexGen }) {
       setPokemons(updatedPokemons);
     }
 
-    fetchImg();
-  }, [pokemons, gen, prevGeneration]);
-
-  async function handleClick() {
-    if (gen < 9 && !loading && pokemons.length) {
-      setLoading(true);
-      const nextGen = gen + 1;
-      const results = await getPokemonsGen(nextGen);
-      setqtdVisiveis(10);
-      setGen(nextGen);
-      setPokemons(results);
-      setLoading(false);
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Rolar pra o topo
-      prevGeneration.current = gen; // atualiza a geração anterior
-    }
-  }
-
-  async function handleGenAnt() {
-    if (gen > 1 && !loading && pokemons.length) {
-      setLoading(true);
-      const nextGen = gen - 1;
-      const results = await getPokemonsGen(nextGen);
-      setqtdVisiveis(10);
-      setGen(nextGen);
-      setPokemons(results);
-      setLoading(false);
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Rolar pra o topo
-      prevGeneration.current = gen; // atualiza a geração anterior
-    }
-  }
-
-  async function handleGen(generation) {
-    if (!loading && pokemons.length) {
-      if (generation === prevGeneration.current) {
-        return;
-      }
-      setLoading(true);
-      const nextGen = generation;
-      const results = await getPokemonsGen(nextGen);
-      setqtdVisiveis(10);
-      setGen(nextGen);
-      setPokemons(results);
-      setLoading(false);
-      prevGeneration.current = gen; // atualiza a geração anterior
-    }
-  }
+    fetchPokemonData();
+  }, [pokemons]);
 
   function handleMostrarMais() {
     setqtdVisiveis(qtdVisiveis + 10);
@@ -118,7 +71,6 @@ function DexCompleta({ searchValue, dexGen }) {
   }
 
   const pkmVisiveis = pokemons.slice(0, qtdVisiveis);
-
   return (
     <div
       style={{
@@ -134,30 +86,6 @@ function DexCompleta({ searchValue, dexGen }) {
             backgroundSize: "100%",
           }}
         >
-          <Container className="text-center">
-            <ButtonGroup className="justify-content-center">
-              <Row>
-                {[...Array(9)].map((_, index) => (
-                  <Col
-                    style={{ padding: "0.35em" }}
-                    xs="3"
-                    sm="3"
-                    md
-                    lg
-                    key={index}
-                  >
-                    <Button
-                      onClick={() => handleGen(index + 1)}
-                      disabled={(loading, gen == index + 1)}
-                      key={index}
-                    >
-                      Gen {index + 1}
-                    </Button>
-                  </Col>
-                ))}
-              </Row>
-            </ButtonGroup>
-          </Container>
           <Row
             className="justify-content-center"
             style={{ minHeight: "100vh" }}
@@ -215,18 +143,6 @@ function DexCompleta({ searchValue, dexGen }) {
             {qtdVisiveis > 10 && (
               <Button variant="danger" onClick={handleMostrarMenos}>
                 Mostrar Menos
-              </Button>
-            )}
-
-            {!loading && gen > 1 && (
-              <Button variant="danger" onClick={handleGenAnt}>
-                Geração Anterior
-              </Button>
-            )}
-
-            {!loading && gen < 9 && (
-              <Button variant="success" onClick={handleClick}>
-                Próxima Geração
               </Button>
             )}
             {loading && <Spinner animation="border" variant="primary" />}
