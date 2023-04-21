@@ -19,15 +19,15 @@ const BarraNavContainer = styled.div`
 `;
 
 function Home() {
-  const [searchValue, setSearchValue] = useState("");
+  const [valorPesquisa, setValorPesquisa] = useState("");
   const [gen, setGen] = useState(1);
 
   function handleSearchInputChange(event) {
-    setSearchValue(event.target.value);
+    setValorPesquisa(event.target.value);
   }
 
-  function handleGenChange(generation) {
-    setGen(generation);
+  function handleAltGen(geracao) {
+    setGen(geracao);
   }
 
   return (
@@ -36,7 +36,7 @@ function Home() {
         <BarraNavContainer>
           <BarraNav
             onSearchInputChange={handleSearchInputChange}
-            onGenChange={handleGenChange} // adiciona a prop "onGenChange"
+            onGenChange={handleAltGen} // adiciona a prop "onGenChange"
             gen={gen}
           />
         </BarraNavContainer>
@@ -44,7 +44,7 @@ function Home() {
           <Routes>
             <Route
               path="/"
-              element={<DexCompleta searchValue={searchValue} dexGen={gen} />}
+              element={<DexCompleta valorPesquisa={valorPesquisa} dexGen={gen} />}
             />
             <Route path="/about" element={<About />} />
           </Routes>

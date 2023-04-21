@@ -19,7 +19,7 @@ function DexCompleta({ searchValue, dexGen }) {
   const [loading, setLoading] = useState(false);
   const [qtdVisiveis, setqtdVisiveis] = useState(10);
 
-  const prevGen = useRef(null);
+  const genAnt = useRef(null);
 
   useEffect(() => {
     async function fetchPokemons() {
@@ -29,9 +29,9 @@ function DexCompleta({ searchValue, dexGen }) {
       setLoading(false);
     }
 
-    if (dexGen !== prevGen.current) {
+    if (dexGen !== genAnt.current) {
       setPokemons([]);
-      prevGen.current = dexGen;
+      genAnt.current = dexGen;
     }
 
     fetchPokemons();
@@ -49,11 +49,11 @@ function DexCompleta({ searchValue, dexGen }) {
 
       const pokemonArr = await getPkm(pokemons);
 
-      const updatedPokemons = pokemons.map((pokemon, index) => ({
+      const attPokemons = pokemons.map((pokemon, index) => ({
         ...pokemon,
         data: pokemonArr[index],
       }));
-      setPokemons(updatedPokemons);
+      setPokemons(attPokemons);
       setqtdVisiveis(10);
     }
 

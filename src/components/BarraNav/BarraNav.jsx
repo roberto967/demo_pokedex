@@ -22,7 +22,7 @@ function BarraNav({ onSearchInputChange, onGenChange, gen }) {
     <Container fluid style={{ padding: "0" }}>
       <Navbar key={expand} bg="light" expand="sm">
         <Container fluid>
-          <Navbar.Brand href="#" expand={expand}>
+          <Navbar.Brand href="#">
             <img
               src={logo}
               alt="pokemon-logo"
