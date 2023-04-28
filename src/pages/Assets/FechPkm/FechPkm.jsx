@@ -16,7 +16,8 @@ export async function getPokemonsGen(gen) {
     promises.map(async (pokemon) => {
       try {
         const res = await axios.get(pokemon.url);
-        return res.data;
+        const pokemonData = await axios.get(res.data.varieties[0].pokemon.url);
+        return { ...res.data, ...pokemonData.data };
       } catch (error) {
         console.error(`Error fetching ${pokemon.url}: ${error}`);
         return null;
@@ -29,8 +30,6 @@ export async function getPokemonsGen(gen) {
       pokemons.push(pokemon);
     }
   });
-
-  //console.log(pokemons);
 
   pokemons.sort((a, b) => a.order - b.order);
 

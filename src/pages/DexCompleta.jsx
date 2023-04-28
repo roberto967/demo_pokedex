@@ -10,7 +10,7 @@ import {
 
 import PokemonCard from "../components/PokemonCard/PokemonCard";
 import PokemonCardPlaceholder from "../components/PokemonCard/PokemonCardPlaceholder";
-import { getPkm, getPokemonsGen } from "./Assets/FechPkm/FechPkm";
+import { getPokemonsGen } from "./Assets/FechPkm/FechPkm";
 import backgroundImg from "./Assets/imgs/pokemon_background.png";
 import bgBackgroudImg from "./Assets/imgs/body_bg.png";
 
@@ -27,6 +27,7 @@ function DexCompleta({ searchValue, dexGen }) {
       const results = await getPokemonsGen(dexGen);
       setPokemons(results);
       setLoading(false);
+      setqtdVisiveis(10);
     }
 
     if (dexGen !== genAnt.current) {
@@ -36,29 +37,6 @@ function DexCompleta({ searchValue, dexGen }) {
 
     fetchPokemons();
   }, [dexGen]);
-
-  useEffect(() => {
-    async function fetchPokemonData() {
-      if (pokemons.length === 0) {
-        return;
-      }
-
-      if (pokemons.every((pokemon) => pokemon.data)) {
-        return;
-      }
-
-      const pokemonArr = await getPkm(pokemons);
-
-      const attPokemons = pokemons.map((pokemon, index) => ({
-        ...pokemon,
-        data: pokemonArr[index],
-      }));
-      setPokemons(attPokemons);
-      setqtdVisiveis(10);
-    }
-
-    fetchPokemonData();
-  }, [pokemons]);
 
   function handleMostrarMais() {
     setqtdVisiveis(qtdVisiveis + 10);
@@ -71,6 +49,7 @@ function DexCompleta({ searchValue, dexGen }) {
   }
 
   const pkmVisiveis = pokemons.slice(0, qtdVisiveis);
+
   return (
     <div
       style={{
@@ -90,8 +69,8 @@ function DexCompleta({ searchValue, dexGen }) {
             className="justify-content-center"
             style={{ minHeight: "100vh" }}
           >
-            {pkmVisiveis.map((pokemon, key) => {
-              if (pokemon.data) {
+            {pkmVisiveis.length ? (
+              pkmVisiveis.map((pokemon, key) => {
                 return pokemon.names.map((enName) => {
                   if (enName.language.name === "en") {
                     return (
@@ -106,34 +85,32 @@ function DexCompleta({ searchValue, dexGen }) {
                         <PokemonCard
                           nome={enName.name}
                           img={
-                            pokemon.data.sprites.other["official-artwork"]
+                            pokemon.sprites.other["official-artwork"]
                               .front_default
                           }
-                          tipos={pokemon.data.types}
+                          tipos={pokemon.types}
                         />
                       </Col>
                     );
                   }
                 });
-              } else {
-                {window.scrollTo({ top: 0, behavior: "instant"})}
-                return (
+              })
+            ) : (
+              <>
+                {[...Array(10)].map((_, index) => (
                   <Col
                     xs="12"
                     sm="6"
                     md="4"
                     lg="3"
                     style={{ padding: "4%" }}
-                    key={key}
+                    key={index}
                   >
-                    <div className="animate__animated animate__glow">
-                      <PokemonCardPlaceholder />
-                    </div>
+                    <PokemonCardPlaceholder />
                   </Col>
-                  
-                );
-              }
-            })}
+                ))}
+              </>
+            )}
           </Row>
           <div className="text-center mt-3">
             {pokemons.length > qtdVisiveis && (
