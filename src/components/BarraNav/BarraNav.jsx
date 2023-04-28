@@ -67,7 +67,8 @@ function BarraNav({ onSearchInputChange, onGenChange, gen }) {
       <Container style={{ transition: "height 0.10s ease" }}>
         <Collapse in={expand}>
           <ButtonGroup
-            className={`ms-auto ${expand ? "d-flex d-flex" : "d-none"}`}
+            className={`ms-auto ${expand ? "d-flex" : "d-none"} flex-wrap`}
+            style={{ maxWidth: "100%" }}
           >
             {[...Array(9)].map((_, index) => (
               <Button

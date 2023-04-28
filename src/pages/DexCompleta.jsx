@@ -14,7 +14,7 @@ import { getPokemonsGen } from "./Assets/FechPkm/FechPkm";
 import backgroundImg from "./Assets/imgs/pokemon_background.png";
 import bgBackgroudImg from "./Assets/imgs/body_bg.png";
 
-function DexCompleta({ searchValue, dexGen }) {
+function DexCompleta({ pkmPesquisado, dexGen }) {
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [qtdVisiveis, setqtdVisiveis] = useState(10);
@@ -50,6 +50,8 @@ function DexCompleta({ searchValue, dexGen }) {
 
   const pkmVisiveis = pokemons.slice(0, qtdVisiveis);
 
+  //console.log(pkmPesquisado);
+
   return (
     <div
       style={{
@@ -71,6 +73,7 @@ function DexCompleta({ searchValue, dexGen }) {
           >
             {pkmVisiveis.length ? (
               pkmVisiveis.map((pokemon, key) => {
+                console.log(pokemon)
                 return pokemon.names.map((enName) => {
                   if (enName.language.name === "en") {
                     return (
@@ -89,6 +92,7 @@ function DexCompleta({ searchValue, dexGen }) {
                               .front_default
                           }
                           tipos={pokemon.types}
+                          estatisticas={pokemon.stats}
                         />
                       </Col>
                     );

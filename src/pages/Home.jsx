@@ -44,7 +44,9 @@ function Home() {
           <Routes>
             <Route
               path="/"
-              element={<DexCompleta valorPesquisa={valorPesquisa} dexGen={gen} />}
+              element={
+                <DexCompleta pkmPesquisado={valorPesquisa} dexGen={gen} />
+              }
             />
             <Route path="/about" element={<About />} />
           </Routes>
@@ -53,6 +55,5 @@ function Home() {
     </>
   );
 }
-
 
 export default Home;
